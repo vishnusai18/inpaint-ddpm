@@ -76,8 +76,15 @@ def main(argv=None):
 
     step, epoch = 0, 0
     ck = os.path.join(run, "ckpt.pt")
-    if os.path.exists(ck):  # resume
-        s = torch.load(ck, map_location=dev)
+    cands = []
+    for f in (ck, os.path.join(run, "ckpt_a.pt"), os.path.join(run, "ckpt_b.pt")):
+        if os.path.exists(f):
+            try:
+                cands.append(torch.load(f, map_location=dev))
+            except Exception:  # truncated by an interrupted save
+                print(f"ignoring unreadable checkpoint {f}", flush=True)
+    if cands:  # resume from the newest readable checkpoint
+        s = max(cands, key=lambda c: c["step"])
         model.load_state_dict(s["model"]); ema.shadow = s["ema"]; opt.load_state_dict(s["opt"])
         step, epoch = s["step"], s["epoch"]
         print(f"resumed from step {step}", flush=True)
@@ -115,9 +122,13 @@ def main(argv=None):
                 logf.flush()
                 print(f"step {step:6d} loss {running/nrun:.4f} val {val} {time.time()-t0:.0f}s", flush=True)
                 running, nrun = 0.0, 0
-            if step % max(args.val_every, 500) == 0 or step == args.steps:
+            if step % args.val_every == 0 or step == args.steps:
                 torch.save({"model": model.state_dict(), "ema": ema.shadow, "opt": opt.state_dict(),
-                            "step": step, "epoch": epoch, "args": vars(args)}, ck)
+                            "step": step, "epoch": epoch, "args": vars(args)},
+                           os.path.join(run, "ckpt_a.pt" if (step // args.val_every) % 2 else "ckpt_b.pt"))
+                if step == args.steps:  # final weights under the canonical name used by evaluate.py
+                    torch.save({"model": model.state_dict(), "ema": ema.shadow, "opt": opt.state_dict(),
+                                "step": step, "epoch": epoch, "args": vars(args)}, ck)
             if step >= args.steps:
                 break
         epoch += 1

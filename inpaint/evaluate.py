@@ -90,6 +90,15 @@ def main(argv=None):
     names = list(models) + ["mean_fill"]
     for kind in MASK_TYPES:
         for level in LEVELS:
+            cache = os.path.join(args.out, f"cache_{kind}_{level}.pt")
+            if os.path.exists(cache):  # resume: this condition was already evaluated
+                try:
+                    c = torch.load(cache, weights_only=False)
+                    rows += c["rows"]; grids[(kind, level)] = c["grid"]
+                    continue
+                except Exception:
+                    pass
+            n_rows0 = len(rows)
             ds = FixedInpaintDataset(test, FixedMaskSet(kind, level, args.n_eval, args.size, TEST_MASK_SEED))
             t0 = time.time()
             keep = {n: [] for n in names}
@@ -112,6 +121,7 @@ def main(argv=None):
                     keep["_mask"] = mask[: args.n_examples].cpu()
             grids[(kind, level)] = {k: (torch.cat(v) if isinstance(v, list) else v) for k, v in keep.items()
                                     if len(v) > 0}
+            torch.save({"rows": rows[n_rows0:], "grid": grids[(kind, level)]}, cache)
             print(f"{kind} {level:.2f}: {time.time()-t0:.0f}s", flush=True)
 
     # ---- tables ----------------------------------------------------------------------

@@ -1,0 +1,12 @@
+{
+  "train_steps": {
+    "unet": 1500,
+    "ddpm": 1500,
+    "ddpm_sev": 1500
+  },
+  "sample_steps": 50,
+  "n_eval": 100,
+  "lpips_error": null,
+  "source": "celeba",
+  "size": 32
+}

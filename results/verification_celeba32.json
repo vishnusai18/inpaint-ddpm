@@ -1,0 +1,130 @@
+{
+  "A1_mask_area": {
+    "checked": 3600,
+    "failed": 0,
+    "worst_abs_deviation": {
+      "rect_0.1_32": 0.005468748509883881,
+      "rect_0.2_32": 0.006640627980232239,
+      "rect_0.4_32": 0.010156244039535522,
+      "irregular_0.1_32": 0.02109374850988388,
+      "irregular_0.2_32": 0.02558593451976776,
+      "irregular_0.4_32": 0.021874994039535522,
+      "rect_0.1_64": 0.0025390610098838806,
+      "rect_0.2_64": 0.004687502980232239,
+      "rect_0.4_64": 0.0062499940395355225,
+      "irregular_0.1_64": 0.02036132663488388,
+      "irregular_0.2_64": 0.01679687201976776,
+      "irregular_0.4_64": 0.020166009664535522
+    }
+  },
+  "A2_mask_format": {
+    "checked": 600,
+    "failed": 0
+  },
+  "A3_rect_geometry": {
+    "checked": 900,
+    "failed": 0
+  },
+  "A4_irregular_shape": {
+    "checked": 1,
+    "failed": 0,
+    "fraction_non_rectangular": 1.0,
+    "mean_bbox_fill": 0.39950886777633804
+  },
+  "A5_mask_determinism": {
+    "checked": 13,
+    "failed": 0
+  },
+  "A6_train_masks_dynamic": {
+    "checked": 192,
+    "failed": 0
+  },
+  "A7_train_test_masks_differ": {
+    "checked": 1200,
+    "failed": 0
+  },
+  "B1_corruption": {
+    "checked": 64,
+    "failed": 0
+  },
+  "B2_split_disjoint": {
+    "checked": 4,
+    "failed": 0
+  },
+  "C1_schedule": {
+    "checked": 6,
+    "failed": 0
+  },
+  "C2_forward_marginal": {
+    "checked": 2,
+    "failed": 0,
+    "mean": -0.006290440913289785,
+    "std": 0.9994322061538696
+  },
+  "C3_x0_recovery": {
+    "checked": 64,
+    "failed": 0,
+    "max_abs_error": 1.1324882507324219e-05
+  },
+  "C4_posterior_bayes": {
+    "checked": 200,
+    "failed": 0
+  },
+  "C5_respacing": {
+    "checked": 3,
+    "failed": 0
+  },
+  "C6_oracle_sampler": {
+    "checked": 3,
+    "failed": 0,
+    "worst_error": 2.086162567138672e-06
+  },
+  "C7_sampler_determinism": {
+    "checked": 2,
+    "failed": 0
+  },
+  "D1_visible_preserved": {
+    "checked": 8,
+    "failed": 0
+  },
+  "D2_input_layout": {
+    "checked": 3,
+    "failed": 0
+  },
+  "D3_severity_branch": {
+    "checked": 5,
+    "failed": 0,
+    "severity_extra_params": 5248,
+    "relative_increase": 0.020685930965435417
+  },
+  "E1_psnr": {
+    "checked": 6,
+    "failed": 0
+  },
+  "E2_ssim": {
+    "checked": 3,
+    "failed": 0
+  },
+  "E3_lpips_wrapper": {
+    "checked": 2,
+    "failed": 0
+  },
+  "F1_overfit_one_batch": {
+    "checked": 3,
+    "failed": 0,
+    "losses": {
+      "unet": {
+        "initial": 1.2216923236846924,
+        "final": 0.07092296332120895
+      },
+      "ddpm": {
+        "initial": 1.0055147409439087,
+        "final": 5.292921559885144e-05
+      },
+      "ddpm_sev": {
+        "initial": 1.0433052778244019,
+        "final": 4.444793830771232e-06
+      }
+    }
+  }
+}
