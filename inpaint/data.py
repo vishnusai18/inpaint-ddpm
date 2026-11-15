@@ -19,8 +19,7 @@ from .synthetic import make_synthetic_split
 
 
 def to_tensor(img_u8: np.ndarray) -> torch.Tensor:
-    return torch.from_numpy(img_u8).permute(2, 0, 1).float() / 127.5 - 1.0
-
+    return torch.from_numpy(np.array(img_u8, copy=True)).permute(2, 0, 1).float() / 127.5 - 1.0
 
 def corrupt(clean: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
     return clean * (1.0 - mask)
