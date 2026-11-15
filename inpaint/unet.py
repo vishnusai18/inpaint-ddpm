@@ -53,9 +53,12 @@ class Attention(nn.Module):
     def forward(self, x):
         b, c, h, w = x.shape
         q, k, v = self.qkv(self.norm(x)).reshape(b, 3, self.heads, c // self.heads, h * w).unbind(1)
-        o = F.scaled_dot_product_attention(q.transpose(-1, -2), k.transpose(-1, -2), v.transpose(-1, -2))
+        o = F.scaled_dot_product_attention(
+            q.transpose(-1, -2).contiguous(),
+            k.transpose(-1, -2).contiguous(),
+            v.transpose(-1, -2).contiguous(),
+        )
         return x + self.proj(o.transpose(-1, -2).reshape(b, c, h, w))
-
 
 class UNet(nn.Module):
     def __init__(self, in_ch: int = 7, out_ch: int = 3, base: int = 64, mults=(1, 2, 3, 4), n_res: int = 2,
