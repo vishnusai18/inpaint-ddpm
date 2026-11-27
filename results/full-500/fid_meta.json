@@ -1,0 +1,14 @@
+{
+  "train_steps": {
+    "unet": 100000,
+    "ddpm": 100000,
+    "ddpm_sev": 100000
+  },
+  "sample_steps": 250,
+  "n_eval": 500,
+  "feature": 2048,
+  "normalize": true,
+  "scope": "full_image",
+  "source": "celeba",
+  "size": 64
+}
